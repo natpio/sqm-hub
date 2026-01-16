@@ -1,14 +1,16 @@
 import streamlit as st
+import datetime
+import time
 
-# Konfiguracja strony - szeroki układ
-st.set_page_config(page_title="SQM LOGISTICS HUB", layout="wide", initial_sidebar_state="collapsed")
+# Konfiguracja strony
+st.set_page_config(page_title="SQM Hub", layout="wide", initial_sidebar_state="collapsed")
 
-# --- CUSTOM CSS DLA WYGLĄDU PREMIUM ---
+# --- CUSTOM CSS ---
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                    url('https://images.unsplash.com/photo-1582192732213-8be32117514c?q=80&w=2000&auto=format&fit=crop'); /* Profesjonalne tło targowe */
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                    url('https://raw.githubusercontent.com/TWOJA_NAZWA_UZYTKOWNIKA/TWOJE_REPO/main/tlo.jpg'); /* Podmień link po wrzuceniu na GitHub */
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -16,93 +18,104 @@ st.markdown("""
     
     .glass-card {
         background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(15px);
         border-radius: 15px;
-        padding: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.4s ease;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease;
         text-align: center;
-        min-height: 180px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        margin-bottom: 20px;
     }
     
     .glass-card:hover {
-        transform: scale(1.03);
+        transform: translateY(-5px);
         background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    h1, h2, h3, p {
-        color: white !important;
-        font-family: 'Inter', sans-serif;
-    }
+    h1, h2, h3, p, span { color: white !important; font-family: 'Inter', sans-serif; }
     
-    a { text-decoration: none !important; }
-
-    .category-title {
-        border-left: 5px solid #FFD700;
-        padding-left: 15px;
-        margin: 30px 0 20px 0;
-        font-weight: bold;
-        letter-spacing: 1px;
+    .clock-text { font-size: 3rem; font-weight: bold; text-align: center; }
+    .calendar-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     </style>
     """, unsafe_allow_html=True)
 
-st.markdown("<h1 style='text-align: center; font-size: 3.5rem; margin-bottom: 0;'>COMMAND CENTER</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; opacity: 0.6; margin-bottom: 50px;'>SQM Multimedia Solutions | Logistics & Operations</p>", unsafe_allow_html=True)
+# --- POWITANIE ---
+st.markdown("<h1 style='text-align: center; font-size: 3rem;'>Witaj w pracy, Logistyku SQM!</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; opacity: 0.8;'>Gotowy na dzisiejsze wyzwania logistyczne?</p>", unsafe_allow_html=True)
+st.markdown("---")
 
-# --- SEKCJA 1: SYSTEMY FIRMOWE ---
-st.markdown("<div class='category-title'><h2>🏢 SYSTEMY PRACOWE (SQM)</h2></div>", unsafe_allow_html=True)
-c1, c2, c3, c4 = st.columns(4)
+# --- SEKCJA 1: SYSTEMY PRACOWE (Z POPRAWIONĄ KOLEJNOŚCIĄ) ---
+st.subheader("🏢 Systemy Pracowe (SQM)")
+col1, col2, col3, col4 = st.columns(4)
 
-with c1:
-    st.markdown("""<a href="https://sqmprojects.eu/panel/fairs/" target="_blank"><div class="glass-card">
-        <h3 style="color: #FFD700 !important;">📅 Pro Projekty</h3>
-        <p>Eventy i Sprzedaż</p>
-    </div></a>""", unsafe_allow_html=True)
-
-with c2:
-    st.markdown("""<a href="https://sqm.current-rms.com/" target="_blank"><div class="glass-card">
-        <h3 style="color: #00FFCC !important;">⚙️ Current RMS</h3>
-        <p>Magazyn i Sprzęt</p>
-    </div></a>""", unsafe_allow_html=True)
-
-with c3:
-    st.markdown("""<a href="https://reveal.eu.fleetmatics.com/pl-PL/live-map/" target="_blank"><div class="glass-card">
-        <h3 style="color: #FF4B4B !important;">📍 Verizon GPS</h3>
-        <p>Monitoring Floty</p>
-    </div></a>""", unsafe_allow_html=True)
-
-with c4:
+with col1:
     st.markdown("""<a href="https://transport.sqm.eu/lista" target="_blank"><div class="glass-card">
         <h3 style="color: #1E90FF !important;">📋 Tablica</h3>
         <p>Logistyka Wyjazdów</p>
     </div></a>""", unsafe_allow_html=True)
 
-# --- SEKCJA 2: TWOJE APLIKACJE ---
-st.markdown("<div class='category-title'><h2>🚀 MOJE NARZĘDZIA (STREAMLIT)</h2></div>", unsafe_allow_html=True)
+with col2:
+    st.markdown("""<a href="https://sqmprojects.eu/panel/fairs/" target="_blank"><div class="glass-card">
+        <h3 style="color: #FFD700 !important;">📅 SQM Projects</h3>
+        <p>Eventy i Sprzedaż</p>
+    </div></a>""", unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""<a href="https://sqm.current-rms.com/" target="_blank"><div class="glass-card">
+        <h3 style="color: #00FFCC !important;">⚙️ Current RMS</h3>
+        <p>Szczegóły Projektów</p>
+    </div></a>""", unsafe_allow_html=True)
+
+with col4:
+    st.markdown("""<a href="https://reveal.eu.fleetmatics.com/pl-PL/live-map/" target="_blank"><div class="glass-card">
+        <h3 style="color: #FF4B4B !important;">📍 Verizon GPS</h3>
+        <p>Monitoring Floty</p>
+    </div></a>""", unsafe_allow_html=True)
+
+# --- SEKCJA 2: MOJE NARZĘDZIA ---
+st.subheader("🚀 Moje Autorskie Aplikacje")
 c5, c6, c7 = st.columns(3)
 
 with c5:
-    st.markdown("""<a href="https://sqm-logistyka-rbwcgzpqbdojmahqg7yn9v.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #FF4B4B;">
-        <h3 style="color: #FF4B4B !important;">📊 Nadzór Imprezy</h3>
-        <p>Live Event Management</p>
+    st.markdown("""<a href="https://sqm-logistyka-rbwcgzpqbdojmahqg7yn9v.streamlit.app/" target="_blank"><div class="glass-card" style="border-top: 4px solid #FF4B4B;">
+        <h3>📊 Nadzór Imprezy</h3>
+        <p>Aktualnie Obsługiwany Event</p>
     </div></a>""", unsafe_allow_html=True)
 
 with c6:
-    st.markdown("""<a href="https://optymalizator2-6eurzxtfvrsy4xoj3g6hdu.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #1E90FF;">
-        <h3 style="color: #1E90FF !important;">📦 Naczepy</h3>
-        <p>Optymalizacja Załadunku</p>
+    st.markdown("""<a href="https://optymalizator2-6eurzxtfvrsy4xoj3g6hdu.streamlit.app/" target="_blank"><div class="glass-card" style="border-top: 4px solid #1E90FF;">
+        <h3>📦 Naczepy</h3>
+        <p>Optymalizator Załadunku</p>
     </div></a>""", unsafe_allow_html=True)
 
 with c7:
-    st.markdown("""<a href="https://logistyka-notes-2026.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #2E8B57;">
-        <h3 style="color: #2E8B57 !important;">📝 Notes 2026</h3>
+    st.markdown("""<a href="https://logistyka-notes-2026.streamlit.app/" target="_blank"><div class="glass-card" style="border-top: 4px solid #2E8B57;">
+        <h3>📝 Notes 2026</h3>
         <p>Kalendarz i Zadania</p>
     </div></a>""", unsafe_allow_html=True)
 
-st.markdown("<br><br><br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+
+# --- DOLNY PANEL: ZEGAR I KALENDARZ ---
+footer_col1, footer_col2 = st.columns([1, 2])
+
+with footer_col1:
+    # ZEGAR
+    now = datetime.datetime.now()
+    st.markdown(f"<div class='clock-text'>{now.strftime('%H:%M:%S')}</div>", unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align:center;'>{now.strftime('%d.%m.%Y')}</p>", unsafe_allow_html=True)
+
+with footer_col2:
+    # KALENDARZ (Widok miesięczny)
+    import calendar
+    year, month = now.year, now.month
+    cal = calendar.month(year, month)
+    st.markdown(f"<pre style='color: white; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; font-size: 1.2rem; text-align: center;'>{cal}</pre>", unsafe_allow_html=True)
+
+st.markdown("---")
+st.caption("SQM Hub | ISE Barcelona & WTM London Edition")
