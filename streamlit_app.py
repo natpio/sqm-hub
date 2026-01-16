@@ -6,15 +6,18 @@ import calendar
 # Konfiguracja strony
 st.set_page_config(page_title="SQM Hub", layout="wide", initial_sidebar_state="collapsed")
 
-# Funkcja do konwersji obrazu lokalnego na Base64 (żeby tło zawsze działało)
+# Funkcja do konwersji obrazu lokalnego na Base64
 def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+    try:
+        with open(bin_file, 'rb') as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    except FileNotFoundError:
+        return None
 
-# INSTRUKCJA: Upewnij się, że plik ze zdjęciem nazywa się 'tlo.jpg' i jest w tym samym folderze
-try:
-    bin_str = get_base64_of_bin_file('tlo.jpg')
+# Obsługa tła (plik tlo.jpg musi być w tym samym folderze)
+bin_str = get_base64_of_bin_file('tlo.jpg')
+if bin_str:
     bg_img_style = f"""
     <style>
     .stApp {{
@@ -26,10 +29,8 @@ try:
     </style>
     """
     st.markdown(bg_img_style, unsafe_allow_html=True)
-except:
-    st.warning("Nie znaleziono pliku tlo.jpg. Wrzuć go do folderu z aplikacją.")
 
-# --- STYLE CSS DLA KAFELKÓW I KALENDARZA ---
+# --- STYLE CSS ---
 st.markdown("""
     <style>
     .glass-card {
@@ -48,17 +49,35 @@ st.markdown("""
     h1, h2, h3, p, th, td { color: white !important; font-family: 'Inter', sans-serif; }
     a { text-decoration: none !important; }
     
-    /* Styl kalendarza */
-    .cal-table { width: 100%; border-collapse: collapse; background: rgba(0,0,0,0.2); border-radius: 10px; }
-    .cal-table th { background: rgba(255,255,255,0.1); padding: 10px; }
-    .cal-table td { padding: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-    .today { background: #FF4B4B; border-radius: 50%; font-weight: bold; }
+    /* Centrowanie kalendarza */
+    .cal-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+    .cal-table { 
+        width: 400px; 
+        border-collapse: collapse; 
+        background: rgba(0,0,0,0.3); 
+        border-radius: 15px; 
+        overflow: hidden;
+    }
+    .cal-table th { background: rgba(255,255,255,0.15); padding: 12px; font-size: 0.9rem; }
+    .cal-table td { padding: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); font-size: 1rem; }
+    .today { 
+        background: #FF4B4B; 
+        color: white; 
+        padding: 5px 10px; 
+        border-radius: 5px; 
+        font-weight: bold; 
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# --- POWITANIE ---
-st.markdown("<h1 style='text-align: center; font-size: 3.5rem; margin-top: 50px;'>Witaj w pracy, Logistyku SQM!</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; opacity: 0.8; font-size: 1.2rem;'>Gotowy na dzisiejsze wyzwania logistyczne?</p>", unsafe_allow_html=True)
+# --- NOWE POWITANIE ---
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-size: 3rem;'>Logistics Department</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; opacity: 0.8; font-size: 1.5rem;'>wybierz interesujący Cię temat:</p>", unsafe_allow_html=True)
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 # --- SEKCJA 1: SYSTEMY PRACOWE ---
@@ -85,38 +104,34 @@ with c6:
 with c7:
     st.markdown('<a href="https://logistyka-notes-2026.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #2E8B57;"><h3>📝 Notes 2026</h3><p>Kalendarz i Zadania</p></div></a>', unsafe_allow_html=True)
 
-st.markdown("<br><hr><br>", unsafe_allow_html=True)
+# --- SEKCJA 3: KALENDARZ NA ŚRODKU ---
+st.markdown("<br><hr style='opacity:0.2;'><br>", unsafe_allow_html=True)
 
-# --- PANEL DOLNY: ZEGAR I KALENDARZ ---
-f_col1, f_col2 = st.columns([1, 1.5])
+now = datetime.datetime.now()
+cal = calendar.Calendar(firstweekday=0)
+month_days = cal.monthdayscalendar(now.year, now.month)
+month_name_pl = ["STYCZEŃ", "LUTY", "MARZEC", "KWIECIEŃ", "MAJ", "CZERWIEC", "LIPIEC", "SIERPIEŃ", "WRZESIEŃ", "PAŹDZIERNIK", "LISTOPAD", "GRUDZIEŃ"][now.month-1]
 
-with f_col1:
-    now = datetime.datetime.now()
-    st.markdown(f"<div style='font-size: 5rem; font-weight: bold; text-align: center;'>{now.strftime('%H:%M:%S')}</div>", unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align: center; font-size: 1.5rem;'>{now.strftime('%d.%m.%Y')}</p>", unsafe_allow_html=True)
+html_cal = f"""
+<div class="cal-container">
+    <table class="cal-table">
+        <tr><th colspan="7" style="font-size: 1.2rem; letter-spacing: 2px;">{month_name_pl} {now.year}</th></tr>
+        <tr><th>Pn</th><th>Wt</th><th>Śr</th><th>Czw</th><th>Pt</th><th>Sob</th><th>Nd</th></tr>
+"""
 
-with f_col2:
-    # Budowa tabeli kalendarza
-    cal = calendar.Calendar(firstweekday=0)
-    month_days = cal.monthdayscalendar(now.year, now.month)
-    month_name = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"][now.month-1]
-    
-    html_cal = f"<h3 style='text-align:center;'>{month_name} {now.year}</h3><table class='cal-table'><tr><th>Pn</th><th>Wt</th><th>Śr</th><th>Czw</th><th>Pt</th><th>Sob</th><th>Nd</th></tr>"
-    for week in month_days:
-        html_cal += "<tr>"
-        for day in week:
-            if day == 0:
-                html_cal += "<td></td>"
-            elif day == now.day:
-                html_cal += f"<td><span class='today'>&nbsp;{day}&nbsp;</span></td>"
-            else:
-                html_cal += f"<td>{day}</td>"
-        html_cal += "</tr>"
-    html_cal += "</table>"
-    st.markdown(html_cal, unsafe_allow_html=True)
+for week in month_days:
+    html_cal += "<tr>"
+    for day in week:
+        if day == 0:
+            html_cal += "<td></td>"
+        elif day == now.day:
+            html_cal += f"<td><span class='today'>{day}</span></td>"
+        else:
+            html_cal += f"<td>{day}</td>"
+    html_cal += "</tr>"
 
-# Automatyczne odświeżanie zegara co 30 sekund (żeby nie muliło strony)
-st.empty()
-import time
-time.sleep(30)
-st.rerun()
+html_cal += "</table></div>"
+st.markdown(html_cal, unsafe_allow_html=True)
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.caption("<p style='text-align: center; opacity: 0.5;'>SQM Hub | Operations Center</p>", unsafe_allow_html=True)
