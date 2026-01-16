@@ -49,7 +49,6 @@ st.markdown("""
     h1, h2, h3, p, th, td { color: white !important; font-family: 'Inter', sans-serif; }
     a { text-decoration: none !important; }
     
-    /* Centrowanie kalendarza */
     .cal-container {
         display: flex;
         justify-content: center;
@@ -74,35 +73,35 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- NOWE POWITANIE ---
+# --- POWITANIE ---
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center; font-size: 3rem;'>Logistics Department</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; opacity: 0.8; font-size: 1.5rem;'>wybierz interesujący Cię temat:</p>", unsafe_allow_html=True)
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# --- SEKCJA 1: SYSTEMY PRACOWE ---
+# --- SEKCJA 1: MOJE APLIKACJE (TERAZ JAKO PIERWSZE + TABLICA) ---
+st.subheader("🚀 Moje Aplikacje")
+c1, c2, c3, c4 = st.columns(4)
+
+with c1:
+    st.markdown('<a href="https://transport.sqm.eu/lista" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #1E90FF;"><h3>📋 Tablica</h3><p>Logistyka Wyjazdów</p></div></a>', unsafe_allow_html=True)
+with c2:
+    st.markdown('<a href="https://sqm-logistyka-rbwcgzpqbdojmahqg7yn9v.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #FF4B4B;"><h3>📊 Nadzór Imprezy</h3><p>Aktualny Event</p></div></a>', unsafe_allow_html=True)
+with c3:
+    st.markdown('<a href="https://optymalizator2-6eurzxtfvrsy4xoj3g6hdu.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #1E90FF;"><h3>📦 Naczepy</h3><p>Optymalizator Załadunku</p></div></a>', unsafe_allow_html=True)
+with c4:
+    st.markdown('<a href="https://logistyka-notes-2026.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #2E8B57;"><h3>📝 Notes 2026</h3><p>Kalendarz i Zadania</p></div></a>', unsafe_allow_html=True)
+
+# --- SEKCJA 2: SYSTEMY PRACOWE (TERAZ JAKO DRUGIE) ---
 st.subheader("🏢 Systemy Pracowe (SQM)")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<a href="https://transport.sqm.eu/lista" target="_blank"><div class="glass-card"><h3>📋 Tablica</h3><p>Logistyka Wyjazdów</p></div></a>', unsafe_allow_html=True)
-with col2:
     st.markdown('<a href="https://sqmprojects.eu/panel/fairs/" target="_blank"><div class="glass-card"><h3>📅 SQM Projects</h3><p>Eventy i Sprzedaż</p></div></a>', unsafe_allow_html=True)
-with col3:
+with col2:
     st.markdown('<a href="https://sqm.current-rms.com/" target="_blank"><div class="glass-card"><h3>⚙️ Current RMS</h3><p>Szczegóły Projektów</p></div></a>', unsafe_allow_html=True)
-with col4:
+with col3:
     st.markdown('<a href="https://reveal.eu.fleetmatics.com/pl-PL/live-map/" target="_blank"><div class="glass-card"><h3>📍 Verizon GPS</h3><p>Monitoring Floty</p></div></a>', unsafe_allow_html=True)
-
-# --- SEKCJA 2: MOJE NARZĘDZIA ---
-st.subheader("🚀 Moje Autorskie Aplikacje")
-c5, c6, c7 = st.columns(3)
-
-with c5:
-    st.markdown('<a href="https://sqm-logistyka-rbwcgzpqbdojmahqg7yn9v.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #FF4B4B;"><h3>📊 Nadzór Imprezy</h3><p>Aktualny Event</p></div></a>', unsafe_allow_html=True)
-with c6:
-    st.markdown('<a href="https://optymalizator2-6eurzxtfvrsy4xoj3g6hdu.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #1E90FF;"><h3>📦 Naczepy</h3><p>Optymalizator Załadunku</p></div></a>', unsafe_allow_html=True)
-with c7:
-    st.markdown('<a href="https://logistyka-notes-2026.streamlit.app/" target="_blank"><div class="glass-card" style="border-bottom: 5px solid #2E8B57;"><h3>📝 Notes 2026</h3><p>Kalendarz i Zadania</p></div></a>', unsafe_allow_html=True)
 
 # --- SEKCJA 3: KALENDARZ NA ŚRODKU ---
 st.markdown("<br><hr style='opacity:0.2;'><br>", unsafe_allow_html=True)
